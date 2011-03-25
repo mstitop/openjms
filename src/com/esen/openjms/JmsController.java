@@ -1,5 +1,7 @@
 package com.esen.openjms;
 
+import java.net.MalformedURLException;
+
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
@@ -13,10 +15,28 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import org.exolab.jms.administration.AdminConnectionFactory;
+import org.exolab.jms.administration.JmsAdminServerIfc;
 import org.exolab.jms.server.JmsServer;
 
 public class JmsController {
+	public static final String url = "tcp://localhost:3035";
+
 	JmsServer server;
+
+	public JmsAdminServerIfc getAdmin() {
+		JmsAdminServerIfc admin = null;
+		try {
+			admin = AdminConnectionFactory.create(url);
+		}
+		catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		catch (JMSException e) {
+			e.printStackTrace();
+		}
+		return admin;
+	}
 
 	public static void main(String[] args) {
 		final JmsController controller = new JmsController();
